@@ -30,7 +30,9 @@ app.get('/pessoas',async (request,reply) => {
 })
 
 app.post('/pessoas',async (request,reply) => {
-    const body = request.body;
+    const body: any = request.body;
+
+    body.DataNasc = new Date(body.DataNasc);
 
     const pessoasParsed = pessoasSquema.safeParse(body);
 
