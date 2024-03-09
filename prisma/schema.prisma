@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Pessoas {
+  Id       Int      @id @default(autoincrement())
+  Nome     String   @db.VarChar(255)
+  DataNasc DateTime
+  Email    String   @db.VarChar(255)
+  Cpf      String   @db.VarChar(255)
+  Rua      String   @db.VarChar(255)
+  Numero   Int
+  Bairro   String   @db.VarChar(255)
+  Cidade   String   @db.VarChar(255)
+  Cep      String   @db.VarChar(255)
+  Estado   String   @db.VarChar(255)
+  Pais     String   @db.VarChar(255)
+
+  animais Animal[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Animal {
+  Id        Int      @id @default(autoincrement())
+  Pessoas   Pessoas? @relation(fields: [PessoasId], references: [Id])
+  PessoasId Int?
+  Nome      String   @db.VarChar(255)
+  Genero    String   @db.VarChar(1)
+  Especie   String   @db.VarChar(255)
+  Idade     Int
+}

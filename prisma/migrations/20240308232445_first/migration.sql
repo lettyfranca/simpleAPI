@@ -1,0 +1,34 @@
+-- CreateTable
+CREATE TABLE `Pessoas` (
+    `Id` INTEGER NOT NULL AUTO_INCREMENT,
+    `Nome` VARCHAR(255) NOT NULL,
+    `DataNasc` DATETIME(3) NOT NULL,
+    `Email` VARCHAR(255) NOT NULL,
+    `Cpf` VARCHAR(255) NOT NULL,
+    `Rua` VARCHAR(255) NOT NULL,
+    `Numero` INTEGER NOT NULL,
+    `Bairro` VARCHAR(255) NOT NULL,
+    `Cidade` VARCHAR(255) NOT NULL,
+    `Cep` VARCHAR(255) NOT NULL,
+    `Estado` VARCHAR(255) NOT NULL,
+    `Pais` VARCHAR(255) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    PRIMARY KEY (`Id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Animal` (
+    `Id` INTEGER NOT NULL AUTO_INCREMENT,
+    `PessoasId` INTEGER NULL,
+    `Nome` VARCHAR(255) NOT NULL,
+    `Genero` VARCHAR(1) NOT NULL,
+    `Especie` VARCHAR(255) NOT NULL,
+    `Idade` INTEGER NOT NULL,
+
+    PRIMARY KEY (`Id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `Animal` ADD CONSTRAINT `Animal_PessoasId_fkey` FOREIGN KEY (`PessoasId`) REFERENCES `Pessoas`(`Id`) ON DELETE SET NULL ON UPDATE CASCADE;
