@@ -1,6 +1,7 @@
 import Fastify from "fastify";
 import { PrismaClient } from '@prisma/client'
 import { z } from "zod";
+import { request } from "http";
  
 const db = new PrismaClient()
 
@@ -45,7 +46,35 @@ app.post('/pessoas',async (request,reply) => {
     });
 
     return datinha;
-})
+});
+
+app.put('/pessoas/:id', async(request,reply) => {    
+    const params: any = request.params;
+    const id = parseInt(params.id);
+    const body: any = request.body;
+    body.DataNasc = new Date(body.DataNasc);
+    const pessoasParsed = pessoasSquema.safeParse(body);
+
+    if (!pessoasParsed.success) return;
+
+    const pessoa = pessoasParsed.data;
+
+    const datinha = await db.pessoas.update({
+        where: { Id: id},
+        data: pessoa as any
+    });
+
+    return datinha;
+});
+
+app.delete('/pessoas/:id', async(request,reply) =>{
+    const params: any = request.params;
+    const id = parseInt(params.id);
+
+    const deleteUser = await db.pessoas.delete({
+        where: {Id: id},
+      })
+});
 
 try {
     app.listen({ port: 3000 })
